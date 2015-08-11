@@ -25,6 +25,9 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 /**
  * Created by jocelyn on 3/12/15.
  */
@@ -56,25 +59,38 @@ public class ShowDinnerActivity extends Activity {
         tv.setText(mDinner);
     }
 
-    public void orderOnline (View view) {
+    public void orderOnline(View view) {
         // Start an intent to allow the user to order dinner online
         Intent intent = new Intent(this, OrderDinnerActivity.class);
         intent.putExtra(selectedDinnerExtrasKey, mDinner);
         startActivity(intent);
     }
 
-    public void removeMeal (View view) {
+    public void removeMeal(View view) {
         // Start an intent to remove the dinner suggestion
         Intent intent = new Intent(this, RemoveMealActivity.class);
         intent.putExtra(selectedDinnerExtrasKey, mDinner);
         startActivity(intent);
     }
 
-    public void showRecipe (View view) {
+    public void showRecipe(View view) {
         // Start an intent to show the recipe for the dinner suggestion
         Intent intent = new Intent(this, ShowRecipeActivity.class);
         intent.putExtra(selectedDinnerExtrasKey, mDinner);
         startActivity(intent);
+
+        /**
+         * Google Analytics code to track an event
+         * In this case, it will track the recipes in demand.
+         */
+        // Create a tracker
+        Tracker tracker = ((MyApp) getApplication()).getTracker();
+        // Send an event
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Dinner actions")
+                .setAction("Show Recipe")
+                .setLabel(mDinner)
+                .build());
     }
 
     // Choose another dinner suggestion
