@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ga_trackingId">UA-66147732-1</string>
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- The screen names that will appear in reports -->
+    <screenName name="com.example.android.dinnerapp.MainActivity">
+        Main Screen
+    </screenName>
+    <screenName name="com.example.android.dinnerapp.OrderDinnerActivity">
+        Order Dinner
+    </screenName>
+    <screenName name="com.example.android.dinnerapp.RemoveMealActivity">
+        Eradicate Dinner
+    </screenName>
+    <screenName name="com.example.android.dinnerapp.ShowDinnerActivity">
+        Show Dinner
+    </screenName>
+    <screenName name="com.example.android.dinnerapp.ShowRecipeActivity">
+        Show Recipe
+    </screenName>
+
+</resources>
