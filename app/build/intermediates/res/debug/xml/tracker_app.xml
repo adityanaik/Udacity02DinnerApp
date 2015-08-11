@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ga_trackingId">UA-66147732-1</string>
-    <bool name="ga_autoActivityTracking">true</bool>
+    <bool name="ga_autoActivityTracking">false</bool>
 
     <!-- The screen names that will appear in reports -->
     <screenName name="com.example.android.dinnerapp.MainActivity">
