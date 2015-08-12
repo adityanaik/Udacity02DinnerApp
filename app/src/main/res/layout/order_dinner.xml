@@ -41,6 +41,14 @@
             tools:visibility="visible" />
 
         <Button
+            android:id="@+id/checkout_step2_button"
+            style="@style/button_solid"
+            android:onClick="getPaymentInfo"
+            android:text="Payment"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <Button
             android:id="@+id/purchase_dinner_button"
             style="@style/button_solid"
             android:onClick="purchaseCart"

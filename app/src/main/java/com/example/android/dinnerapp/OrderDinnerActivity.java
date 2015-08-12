@@ -136,7 +136,7 @@ public class OrderDinnerActivity extends Activity {
         sendStartCheckoutHit();
 
         // Show the Purchase button
-        Button button = (Button) findViewById(R.id.purchase_dinner_button);
+        Button button = (Button) findViewById(R.id.checkout_step2_button);
         button.setVisibility(View.VISIBLE);
         // Hide the Start Checkout button
         button = (Button) findViewById(R.id.start_checkout_button);
@@ -198,6 +198,44 @@ public class OrderDinnerActivity extends Activity {
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Shopping steps")
                 .setAction("Purchase")
+                .setLabel(thisDinner)
+                .addProduct(product)
+                .setProductAction(productAction)
+                .build());
+    }
+
+    public void getPaymentInfo(View view) {
+        /* Code to implement the payment info goes here.
+        * In this project, we skip implementing that functionality
+        * and instead focus on sending the Checkout hit of getting the payment info
+        * to the Analytics. */
+        Utility.showMyToast("Preferred payment mode selected.", this);
+
+        sendPaymentInfoHit();
+
+        // Show the Purchase button
+        Button button = (Button) findViewById(R.id.purchase_dinner_button);
+        button.setVisibility(View.VISIBLE);
+        // Hide the Payment Info button
+        button = (Button) findViewById(R.id.checkout_step2_button);
+        button.setVisibility(View.INVISIBLE);
+    }
+
+    private void sendPaymentInfoHit() {
+        Product product = new Product()
+                .setName("Dinner")
+                .setPrice(5)
+                .setVariant(thisDinner)
+                .setId(thisDinnerId)
+                .setQuantity(1);
+
+        ProductAction productAction = new ProductAction(ProductAction.ACTION_CHECKOUT_OPTION)
+                .setCheckoutStep(2);
+
+        Tracker tracker = ((MyApp) getApplication()).getTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Shopping steps")
+                .setAction("Get Payment")
                 .setLabel(thisDinner)
                 .addProduct(product)
                 .setProductAction(productAction)
