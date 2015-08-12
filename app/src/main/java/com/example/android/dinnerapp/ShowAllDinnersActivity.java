@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 public class ShowAllDinnersActivity extends ListActivity {
 
     String selectedDinnerExtrasKey = String.valueOf(R.string.selected_dinner);
@@ -15,6 +18,9 @@ public class ShowAllDinnersActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_all_dinners);
+
+        // Start timing how long it takes to display the list of products
+        long startTime = System.nanoTime();
 
         // Get the array of all the dinners
         Dinner dinner = new Dinner();
@@ -27,6 +33,28 @@ public class ShowAllDinnersActivity extends ListActivity {
         // Attach the ArrayAdapter to the list view
         ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(arrayAdapter);
+
+        // Stop timing how long it takes to display the list of products
+        long stopTime = System.nanoTime();
+        long elapsedTime = (stopTime - startTime) / 1000000;
+
+        // Display a toast to show the elapsed time
+        Utility.showMyToast("Elapsed time: " + Long.toString(elapsedTime) + " milliseconds", this);
+
+        //Report to analytics how long it took to display this list
+        sendAnalyticsTimingHit(elapsedTime);
+    }
+
+    private void sendAnalyticsTimingHit(long elapsedTime) {
+        Tracker tracker = ((MyApp) getApplication()).getTracker();
+
+        // Build and send timing data
+        tracker.send(new HitBuilders.TimingBuilder()
+                .setCategory("list of dinners")
+                .setValue(elapsedTime)
+                .setLabel("Display duration")
+                .setVariable("duration")
+                .build());
     }
 
     @Override
