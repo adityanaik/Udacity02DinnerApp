@@ -64,6 +64,20 @@ public class ShowDinnerActivity extends Activity {
         Intent intent = new Intent(this, OrderDinnerActivity.class);
         intent.putExtra(selectedDinnerExtrasKey, mDinner);
         startActivity(intent);
+
+        /**
+         * Google Analytics code to track an event, and hence check if the goal is met.
+         * In this case, the goal is to check if the "Egg and tomato salad" meal
+         * is ordered more than 3 times.
+         */
+        // Create a tracker
+        Tracker tracker = ((MyApp) getApplication()).getTracker();
+        // Send an event
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Dinner actions")
+                .setAction("Order meal")
+                .setLabel(mDinner)
+                .build());
     }
 
     public void removeMeal(View view) {
