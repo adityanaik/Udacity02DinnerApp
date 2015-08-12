@@ -19,14 +19,15 @@ package com.example.android.dinnerapp;
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * Created by jocelyn on 12/10/14.
- */
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
 public class Utility {
 
     public static void showMyToast(String toastText, Context appContext) {
 
-        // Show a toast with tonights dinner
+        // Show a toast with tonight's dinner
         // Context context = getApplicationContext();
         // CharSequence text = "Hello toast!";
         int duration = Toast.LENGTH_SHORT;
@@ -51,5 +52,17 @@ public class Utility {
     // The ID of a dinner is encoded in the first two characters
     public static String getDinnerId(String dinner) {
         return dinner.substring(0, 2);
+    }
+
+    // Gets the current time as a String
+    public static String getCurrentTime() {
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M hh:mm:ss");
+        return dateFormat.format(currentDate);
+    }
+
+    // Gets a unique transaction id string by concatenating current time and product id.
+    public static String getUniqueTransactionId(String productId) {
+        return ("T-" + getCurrentTime() + productId);
     }
 }

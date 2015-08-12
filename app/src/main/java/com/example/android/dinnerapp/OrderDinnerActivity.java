@@ -98,7 +98,6 @@ public class OrderDinnerActivity extends Activity {
         // Show the Start Checkout button
         Button button = (Button) findViewById(R.id.start_checkout_button);
         button.setVisibility(View.VISIBLE);
-
         // Hide the Add to Cart button
         button = (Button) findViewById(R.id.add_to_cart_button);
         button.setVisibility(View.INVISIBLE);
@@ -106,7 +105,7 @@ public class OrderDinnerActivity extends Activity {
     }
 
     /**
-     * G-Analytics code to track an event of "Add to cart" hit for e-commerce analysis.
+     * G-Analytics code to track an "Add to cart" hit for e-commerce analysis.
      */
     public void sendAddToCartHit() {
         Product product = new Product()
@@ -135,10 +134,17 @@ public class OrderDinnerActivity extends Activity {
         Utility.showMyToast("Checkout process begins...", this);
 
         sendStartCheckoutHit();
+
+        // Show the Purchase button
+        Button button = (Button) findViewById(R.id.purchase_dinner_button);
+        button.setVisibility(View.VISIBLE);
+        // Hide the Start Checkout button
+        button = (Button) findViewById(R.id.start_checkout_button);
+        button.setVisibility(View.INVISIBLE);
     }
 
     /**
-     * G-Analytics code to track an event of Checkout hit for e-commerce analysis.
+     * G-Analytics code to track a Checkout hit for e-commerce analysis.
      */
     private void sendStartCheckoutHit() {
         // We just assume that the currently selected dinner is in the cart.
@@ -155,6 +161,43 @@ public class OrderDinnerActivity extends Activity {
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Shopping steps")
                 .setAction("Start checkout")
+                .setLabel(thisDinner)
+                .addProduct(product)
+                .setProductAction(productAction)
+                .build());
+    }
+
+    public void purchaseCart(View view) {
+        /* Code to implement the purchase process goes here.
+        * In this project, we skip implementing that functionality
+        * and instead focus on sending the Purchase hit to the Analytics. */
+        Utility.showMyToast("The Dinner was purchased.", this);
+
+        sendPurchaseHit();
+    }
+
+    /**
+     * G-Analytics code to track a Purchase hit for e-commerce analysis.
+     */
+    private void sendPurchaseHit() {
+        /* In production code, we'd need to iterate over all the products
+        * in the cart.
+        * Here we assume that the currently selected dinner is
+        * the only thing in the cart. */
+        Product product = new Product()
+                .setName("Dinner")
+                .setPrice(5)
+                .setVariant(thisDinner)
+                .setId(thisDinnerId)
+                .setQuantity(1);
+
+        ProductAction productAction = new ProductAction(ProductAction.ACTION_PURCHASE)
+                .setTransactionId(Utility.getUniqueTransactionId(thisDinnerId));
+
+        Tracker tracker = ((MyApp) getApplication()).getTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Shopping steps")
+                .setAction("Purchase")
                 .setLabel(thisDinner)
                 .addProduct(product)
                 .setProductAction(productAction)
