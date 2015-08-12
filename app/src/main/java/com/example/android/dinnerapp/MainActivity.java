@@ -82,5 +82,11 @@ public class MainActivity extends Activity {
 
         return dinnerChoice;
     }
+
+    public void showDinnerList(View view) {
+        // Start an intent to show ShowAllDinnersActivity
+        Intent allDinnerIntent = new Intent(this, ShowAllDinnersActivity.class);
+        startActivity(allDinnerIntent);
+    }
 }
 
