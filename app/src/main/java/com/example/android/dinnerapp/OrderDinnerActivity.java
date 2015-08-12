@@ -18,6 +18,7 @@ package com.example.android.dinnerapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -29,10 +30,15 @@ import com.google.android.gms.analytics.ecommerce.ProductAction;
 public class OrderDinnerActivity extends Activity {
     String selectedDinnerExtrasKey = String.valueOf(R.string.selected_dinner);
 
+    // Declare global variables for the selected dinner and its id,
+    // which are initialized in onStart().
+    String thisDinner;
+    String thisDinnerId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.show_info);
+        setContentView(R.layout.order_dinner);
     }
 
     protected void onStart() {
@@ -50,23 +56,22 @@ public class OrderDinnerActivity extends Activity {
                 dinner);
         String dinnerId = Utility.getDinnerId(dinner);
 
-        sendViewProductHit(dinner, dinnerId);
+        thisDinner = dinner;
+        thisDinnerId = dinnerId;
+
+        sendViewProductHit();
     }
 
     /**
      * G-Analytics code to track an event of product and product action details
      * for e-commerce analysis.
-     *
-     * @param dinner   is the selected dinner
-     * @param dinnerId is the id of the selected dinner, which is embedded
-     *                 in the first two characters of the string
      */
-    public void sendViewProductHit(String dinner, String dinnerId) {
+    public void sendViewProductHit() {
         Product product = new Product()
                 .setName("Dinner")
                 .setPrice(5)
-                .setVariant(dinner)
-                .setId(dinnerId)
+                .setVariant(thisDinner)
+                .setId(thisDinnerId)
                 .setQuantity(1);
 
         ProductAction productAction = new ProductAction(ProductAction.ACTION_DETAIL);
@@ -75,7 +80,39 @@ public class OrderDinnerActivity extends Activity {
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Shopping steps")
                 .setAction("View Order Dinner screen")
-                .setLabel(dinner)
+                .setLabel(thisDinner)
+                .addProduct(product)
+                .setProductAction(productAction)
+                .build());
+    }
+
+    public void addDinnerToCart(View view) {
+        /* Code to implement the selected dinner to cart goes here.
+        In this project, we skip implementing that functionality
+        and instead focus on sending the "Add to Cart" hit to the Analytics.*/
+        Utility.showMyToast(thisDinner + " \"may\" have been added to the cart. :P", this);
+
+        sendAddToCartHit();
+    }
+
+    /**
+     * G-Analytics code to track an event of "Add to cart" hit for e-commerce analysis.
+     */
+    public void sendAddToCartHit() {
+        Product product = new Product()
+                .setName("Dinner")
+                .setPrice(5)
+                .setVariant(thisDinner)
+                .setId(thisDinnerId)
+                .setQuantity(1);
+
+        ProductAction productAction = new ProductAction(ProductAction.ACTION_ADD);
+
+        Tracker tracker = ((MyApp) getApplication()).getTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Shopping steps")
+                .setAction("Add to Cart hit")
+                .setLabel(thisDinner)
                 .addProduct(product)
                 .setProductAction(productAction)
                 .build());
