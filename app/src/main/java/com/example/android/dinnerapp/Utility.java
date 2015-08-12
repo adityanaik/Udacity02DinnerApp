@@ -24,7 +24,7 @@ import android.widget.Toast;
  */
 public class Utility {
 
-    public static void showMyToast (String toastText, Context appContext) {
+    public static void showMyToast(String toastText, Context appContext) {
 
         // Show a toast with tonights dinner
         // Context context = getApplicationContext();
@@ -36,7 +36,7 @@ public class Utility {
 
     }
 
-    public static String[] combine(String[] a, String[] b){
+    public static String[] combine(String[] a, String[] b) {
         int length = a.length + b.length;
         String[] result = new String[length];
         System.arraycopy(a, 0, result, 0, a.length);
@@ -44,7 +44,12 @@ public class Utility {
         return result;
     }
 
-    public static String[] combine(String[] a, String[] b, String[] c, String[] d){
+    public static String[] combine(String[] a, String[] b, String[] c, String[] d) {
         return combine(combine(a, b), combine(c, d));
+    }
+
+    // The ID of a dinner is encoded in the first two characters
+    public static String getDinnerId(String dinner) {
+        return dinner.substring(0, 2);
     }
 }
