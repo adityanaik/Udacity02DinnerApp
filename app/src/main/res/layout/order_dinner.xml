@@ -31,6 +31,15 @@
             style="@style/button_solid"
             android:onClick="addDinnerToCart"
             android:text="Add to cart" />
+
+        <Button
+            android:id="@+id/start_checkout_button"
+            style="@style/button_solid"
+            android:onClick="startCheckout"
+            android:text="Start Checkout"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
     </LinearLayout>
 
 </ScrollView>

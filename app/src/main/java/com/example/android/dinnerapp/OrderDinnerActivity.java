@@ -19,6 +19,7 @@ package com.example.android.dinnerapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -93,6 +94,15 @@ public class OrderDinnerActivity extends Activity {
         Utility.showMyToast(thisDinner + " \"may\" have been added to the cart. :P", this);
 
         sendAddToCartHit();
+
+        // Show the Start Checkout button
+        Button button = (Button) findViewById(R.id.start_checkout_button);
+        button.setVisibility(View.VISIBLE);
+
+        // Hide the Add to Cart button
+        button = (Button) findViewById(R.id.add_to_cart_button);
+        button.setVisibility(View.INVISIBLE);
+
     }
 
     /**
@@ -112,6 +122,39 @@ public class OrderDinnerActivity extends Activity {
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory("Shopping steps")
                 .setAction("Add to Cart hit")
+                .setLabel(thisDinner)
+                .addProduct(product)
+                .setProductAction(productAction)
+                .build());
+    }
+
+    public void startCheckout(View view) {
+        /* Code to implement the checkout process goes here.
+        In this project, we skip implementing that functionality
+        and instead focus on sending the Checkout hit to the Analytics.*/
+        Utility.showMyToast("Checkout process begins...", this);
+
+        sendStartCheckoutHit();
+    }
+
+    /**
+     * G-Analytics code to track an event of Checkout hit for e-commerce analysis.
+     */
+    private void sendStartCheckoutHit() {
+        // We just assume that the currently selected dinner is in the cart.
+        Product product = new Product()
+                .setName("Dinner")
+                .setPrice(5)
+                .setVariant(thisDinner)
+                .setId(thisDinnerId)
+                .setQuantity(1);
+
+        ProductAction productAction = new ProductAction(ProductAction.ACTION_CHECKOUT);
+
+        Tracker tracker = ((MyApp) getApplication()).getTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Shopping steps")
+                .setAction("Start checkout")
                 .setLabel(thisDinner)
                 .addProduct(product)
                 .setProductAction(productAction)
