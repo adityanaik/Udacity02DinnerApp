@@ -22,14 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.app.Fragment;
 
-/**
- * Created by jocelyn on 3/12/15.
- */
-
 /*
  * This fragment displays an info box with a solid heading
  */
-public class UseInfoBoxFragment extends Fragment{
+public class UseInfoBoxFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

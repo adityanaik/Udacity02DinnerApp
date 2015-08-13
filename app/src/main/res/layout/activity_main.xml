@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollview_main_screen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:clickable="false"
-    android:id="@+id/scrollview_main_screen"
     android:fillViewport="false">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:id="@+id/my_main_layout"
-    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/my_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <Button style="@style/button_solid"
-        android:layout_marginTop="30dp"
-        android:text="What's for dinner?"
-        android:id="@+id/whats_for_dinner_button"
-        android:onClick="showFoodPrefsMenu"/>
+        <Button
+            android:id="@+id/whats_for_dinner_button"
+            style="@style/button_solid"
+            android:layout_marginTop="30dp"
+            android:onClick="showFoodPrefsMenu"
+            android:text="What's for dinner?" />
 
-    <Button
-        style="@style/button_solid"
-        android:layout_marginTop="30dp"
-        android:text="Show all the dinners"
-        android:id="@+id/show_all_dinners_button"
-        android:onClick="showDinnerList"/>
+        <Button
+            android:id="@+id/show_all_dinners_button"
+            style="@style/button_solid"
+            android:layout_marginTop="30dp"
+            android:onClick="showDinnerList"
+            android:text="Show all the dinners" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/show_daily_special_button"
+            style="@style/button_solid"
+            android:layout_marginTop="30dp"
+            android:onClick="showDailySpecial"
+            android:text="Show Daily Special" />
+
+    </LinearLayout>
 </ScrollView>
 
 

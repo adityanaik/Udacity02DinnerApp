@@ -88,5 +88,11 @@ public class MainActivity extends Activity {
         Intent allDinnerIntent = new Intent(this, ShowAllDinnersActivity.class);
         startActivity(allDinnerIntent);
     }
+
+    public void showDailySpecial(View view) {
+        // Start an intent to show ShowDailySpecialActivity
+        Intent intent = new Intent(this, ShowDailySpecialActivity.class);
+        startActivity(intent);
+    }
 }
 
