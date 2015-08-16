@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.tagmanager.DataLayer;
+import com.google.android.gms.tagmanager.TagManager;
 
 /**
  * Created by jocelyn on 3/12/15.
@@ -85,6 +87,19 @@ public class ShowDinnerActivity extends Activity {
         Intent intent = new Intent(this, RemoveMealActivity.class);
         intent.putExtra(selectedDinnerExtrasKey, mDinner);
         startActivity(intent);
+
+        // Send data to Tag Manager
+        // Get the DataLayer
+        TagManager tagManager = ((MyApp) getApplication()).getmTagManager();
+        DataLayer dataLayer = tagManager.getDataLayer();
+
+        // Push an event into the DataLayer
+        // which will trigger sending a hit to Google Analytics
+        dataLayer.pushEvent("openScreen",
+                DataLayer.mapOf(
+                        "screen-name", "Dislike Dinner",
+                        "selected-dinner", mDinner));
+
     }
 
     public void showRecipe(View view) {
