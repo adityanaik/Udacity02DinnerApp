@@ -27,6 +27,7 @@ import android.widget.PopupMenu;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
+import com.google.android.gms.tagmanager.DataLayer;
 import com.google.android.gms.tagmanager.TagManager;
 
 import java.util.concurrent.TimeUnit;
@@ -100,9 +101,24 @@ public class MainActivity extends Activity {
     }
 
     public void showDailySpecial(View view) {
-        // Start an intent to show ShowDailySpecialActivity
-        Intent intent = new Intent(this, ShowDailySpecialActivity.class);
-        startActivity(intent);
+        // Show the food pref menu
+        android.widget.PopupMenu popup = new android.widget.PopupMenu(this, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.food_prefs_menu, popup.getMenu());
+
+        // Set the action of the menu
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Save the food pref in the data layer
+                putFoodPrefinDatalayer(item);
+                // Show the daily special
+                startShowDailySpecialActivity();
+                return true;
+            }
+        });
+        // Show the popup menu
+        popup.show();
     }
 
     // Load a TagManager container
@@ -137,6 +153,36 @@ public class MainActivity extends Activity {
                 ((MyApp) getApplication()).setmContainerHolder(containerHolder);
             }
         }, 2, TimeUnit.SECONDS);
+    }
+
+    public void putFoodPrefinDatalayer(MenuItem item) {
+        TagManager tagManager = ((MyApp) getApplication()).getmTagManager();
+
+        DataLayer dataLayer = tagManager.getDataLayer();
+        switch (item.getItemId()) {
+            case R.id.vegan_pref:
+                dataLayer.push("food-pref", "vegan");
+                break;
+            case R.id.vegetarian_pref:
+                dataLayer.push("food-pref", "vegetarian");
+                break;
+            case R.id.fish_pref:
+                dataLayer.push("food-pref", "fish");
+                break;
+            case R.id.meat_pref:
+                dataLayer.push("food-pref", "meat");
+                break;
+            case R.id.unrestricted_pref:
+                dataLayer.push("food-pref", "unrestricted");
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void startShowDailySpecialActivity() {
+        // Start an activity to show the daily special
+        startActivity(new Intent(this, ShowDailySpecialActivity.class));
     }
 }
 
